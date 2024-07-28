@@ -3,13 +3,13 @@ const boxPage = require("../fixtures/pages/boxPage.json");
 const generalElements = require("../fixtures/pages/general.json");
 const dashboardPage = require("../fixtures/pages/dashboardPage.json");
 const inviteeBoxPage = require("../fixtures/pages/inviteeBoxPage.json");
+const drawPage = require("../fixtures/pages/drawPage.json");
 const deleteBox = require("../fixtures/pages/deleteBox.json");
 import { faker } from "@faker-js/faker";
 
 describe("user can create a box and run it", () => {
   let newBoxName = faker.word.noun({ length: { min: 5, max: 10 } });
   let boxId;
-  let wishes = faker.word.noun() + faker.word.adverb() + faker.word.adjective();
   let maxAmount = 50;
   let currency = "Евро";
 
@@ -71,17 +71,26 @@ describe("user can create a box and run it", () => {
       .then((text) => {
         expect(text).to.include(users.user1.name);
         expect(text).to.include(users.user2.name);
-        expect(text).to.include(users.user3.name);
-        cy.clearCookies();
+        expect(text).to.include(users.user3.name);        
       });
   });
 
+  it("the draw verification", () => {
+    cy.get(drawPage.drawStartLink).click({ force: true }); 
+    cy.get(drawPage.drawStartButton).click();
+    cy.get(drawPage.drawConfirmButton).click();
+    cy.get(drawPage.drawResultText).click();
+    cy.contains(
+      "Жеребьевка проведена"
+    );
+  });
+
   it("delete box", () => {
-    cy.visit("/login");
+   cy.visit("/login");
     cy.login(users.userAuthor.email, users.userAuthor.password);
     cy.get(deleteBox.headerBox).click({multiple: true});
     cy.get("[href='/box/" + boxId + "']").click();
-    cy.get(deleteBox.boxSettingsButton).click();
+    cy.get(deleteBox.boxSettingsButton).click({force: true});
     cy.contains("Архивация и удаление").click({force: true});
     cy.get(deleteBox.deleteBoxField).type("Удалить коробку");
     cy.get(deleteBox.deleteBoxSelector)
