@@ -32,3 +32,9 @@ Cypress.Commands.add("login", (userName, password) => {
   cy.get(loginPage.passwordField).type(password);
   cy.get(generalElements.submitButton).click({ force: true });
 });
+
+Cypress.Commands.add("addUsersToTheList", (userNameSelector, emailSelector, userName, email) => {
+    cy.get(userNameSelector).type(userName);
+    cy.get(emailSelector).type(email);
+  });
+

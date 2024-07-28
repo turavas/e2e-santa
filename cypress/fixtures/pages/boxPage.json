@@ -1,5 +1,6 @@
 {
   "boxNameField": ":nth-child(1) > .frm",
+  "boxIdField": ".form-card__main div:nth-child(3) [value]",
   "sixthIcon": ":nth-child(6) > .picture_svg_wrapper",
   "giftPriceToggle": ".switch__toggle",
   "maxAmount": ".MuiGrid-grid-xs-5 > .frm-wrapper > .frm",

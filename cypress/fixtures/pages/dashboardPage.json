@@ -1,3 +1,5 @@
 {
-  "createdBoxName": ".layout-1__header-wrapper-fixed .txt-h3--max-1-lines"
+  "createdBoxName": ".layout-1__header-wrapper-fixed .txt-h3--max-1-lines",
+  "boxHederToggles": ".layout-1__header-wrapper-fixed .toggle-menu-item span",
+  "inviteeNames": ".user-card__name"
 }

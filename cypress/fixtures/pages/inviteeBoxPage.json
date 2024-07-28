@@ -1,3 +1,10 @@
 {
-  "wishesInput": ".frm"
+  "wishesInput": ".frm",
+  "inviteButton": ".form-page__buttons > .btn-main",
+  "nameFirstField": ":nth-child(1) > .frm-wrapper > #input-table-0",
+  "emailFirstField": ":nth-child(2) > .frm-wrapper > #input-table-0",
+  "nameSecondField": ":nth-child(3) > .frm-wrapper > #input-table-1",
+  "emailSecondField": ":nth-child(4) > .frm-wrapper > #input-table-1",
+  "nameThirdField": ":nth-child(5) > .frm-wrapper > #input-table-2",
+  "emailThirdField": ":nth-child(6) > .frm-wrapper > #input-table-2"
 }
