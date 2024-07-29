@@ -4,7 +4,7 @@ const generalElements = require("../fixtures/pages/general.json");
 const dashboardPage = require("../fixtures/pages/dashboardPage.json");
 const inviteeBoxPage = require("../fixtures/pages/inviteeBoxPage.json");
 const drawPage = require("../fixtures/pages/drawPage.json");
-const deleteBox = require("../fixtures/pages/deleteBox.json");
+
 import { faker } from "@faker-js/faker";
 
 describe("user can create a box and run it", () => {
@@ -12,6 +12,7 @@ describe("user can create a box and run it", () => {
   let boxId;
   let maxAmount = 50;
   let currency = "Евро";
+  let cookieHeader;
 
   it("user logins and create a box", () => {
     cy.visit("/login");
@@ -71,31 +72,29 @@ describe("user can create a box and run it", () => {
       .then((text) => {
         expect(text).to.include(users.user1.name);
         expect(text).to.include(users.user2.name);
-        expect(text).to.include(users.user3.name);        
+        expect(text).to.include(users.user3.name);
       });
   });
 
   it("the draw verification", () => {
-    cy.get(drawPage.drawStartLink).click({ force: true }); 
+    cy.get(drawPage.drawStartLink).click({ force: true });
     cy.get(drawPage.drawStartButton).click();
     cy.get(drawPage.drawConfirmButton).click();
     cy.get(drawPage.drawResultText).click();
-    cy.contains(
-      "Жеребьевка проведена"
-    );
+    cy.contains("Жеребьевка проведена");
   });
 
   it("delete box", () => {
-   cy.visit("/login");
+    cy.visit("/login");
     cy.login(users.userAuthor.email, users.userAuthor.password);
-    cy.get(deleteBox.headerBox).click({multiple: true});
-    cy.get("[href='/box/" + boxId + "']").click();
-    cy.get(deleteBox.boxSettingsButton).click({force: true});
-    cy.contains("Архивация и удаление").click({force: true});
-    cy.get(deleteBox.deleteBoxField).type("Удалить коробку");
-    cy.get(deleteBox.deleteBoxSelector)
-      .contains("Удалить коробку")
-      .should("be.visible")
-      .click({force: true});
-  });
-});
+    cy.request({
+          method: "DELETE",
+          url: `https://staging.lpitko.ru/api/account/box/${boxId}`,
+          Cookie: "jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMwMDE2NjAsImlhdCI6MTcyMjIzOTI3NiwiZXhwIjoxNzIyMjQyODc2fQ.cyu-e5sE7ViYjU1WyF45ec9QzD8UNz2RdCx-nFMrfEo; refresh=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMwMDE2NjAsImlhdCI6MTcyMjIzOTI3NiwiZXhwIjoxNzIyMjQ2NDc2fQ.j6uY-3TVBG58ik-Wxbq5ANc2PBJU0q-w7gv57KqXRJU",
+        }).then((deleteResponse) => {
+          expect(deleteResponse.status).to.eq(200);
+        });
+      });
+    });
+  
+
