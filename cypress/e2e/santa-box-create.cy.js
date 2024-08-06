@@ -3,16 +3,18 @@ const boxPage = require("../fixtures/pages/boxPage.json");
 const generalElements = require("../fixtures/pages/general.json");
 const dashboardPage = require("../fixtures/pages/dashboardPage.json");
 const inviteeBoxPage = require("../fixtures/pages/inviteeBoxPage.json");
+const inviteeDashboardPage = require("../fixtures/pages/inviteeDashboardPage.json");
 const drawPage = require("../fixtures/pages/drawPage.json");
+const deleteBox = require("../fixtures/pages/deleteBox.json");
 
 import { faker } from "@faker-js/faker";
 
 describe("user can create a box and run it", () => {
+  let wishes = faker.word.noun() + faker.word.adverb() + faker.word.adjective();
   let newBoxName = faker.word.noun({ length: { min: 5, max: 10 } });
-  let boxId;
   let maxAmount = 50;
   let currency = "Евро";
-  let cookieHeader;
+  let boxId;
 
   it("user logins and create a box", () => {
     cy.visit("/login");
@@ -75,26 +77,62 @@ describe("user can create a box and run it", () => {
         expect(text).to.include(users.user3.name);
       });
   });
+  
+  it("approve as user1", () => {
+    cy.visit("/login");
+    cy.login(users.user1.email, users.user1.password);
+    cy.approveParticipation(boxId, wishes);
+    cy.get(inviteeDashboardPage.noticeForInvitee)
+      .invoke("text")
+      .then((text) => {
+        expect(text).to.contain("Это — анонимный чат с вашим Тайным Сантой");
+      });
+    cy.clearCookies();
+  });
+
+  it("approve as user2", () => {
+    cy.visit("/login");
+    cy.login(users.user2.email, users.user2.password);
+    cy.approveParticipation(boxId, wishes);
+    cy.get(inviteeDashboardPage.noticeForInvitee)
+      .invoke("text")
+      .then((text) => {
+        expect(text).to.contain("Это — анонимный чат с вашим Тайным Сантой");
+      });
+    cy.clearCookies();
+  });
+
+  it("approve as user3", () => {
+    cy.visit("/login");
+    cy.login(users.user3.email, users.user3.password);
+    cy.approveParticipation(boxId, wishes);
+    cy.get(inviteeDashboardPage.noticeForInvitee)
+      .invoke("text")
+      .then((text) => {
+        expect(text).to.contain("Это — анонимный чат с вашим Тайным Сантой");
+      });
+    cy.clearCookies();
+  });
 
   it("the draw verification", () => {
-    cy.get(drawPage.drawStartLink).click({ force: true });
+    cy.get(drawPage.drawStartLink).click({ force: true,  multiple: true}); 
     cy.get(drawPage.drawStartButton).click();
     cy.get(drawPage.drawConfirmButton).click();
     cy.get(drawPage.drawResultText).click();
-    cy.contains("Жеребьевка проведена");
+    cy.contains(
+      "Жеребьевка проведена"
+    );
   });
 
   it("delete box", () => {
     cy.visit("/login");
     cy.login(users.userAuthor.email, users.userAuthor.password);
     cy.request({
-          method: "DELETE",
-          url: `https://staging.lpitko.ru/api/account/box/${boxId}`,
-          Cookie: "jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMwMDE2NjAsImlhdCI6MTcyMjIzOTI3NiwiZXhwIjoxNzIyMjQyODc2fQ.cyu-e5sE7ViYjU1WyF45ec9QzD8UNz2RdCx-nFMrfEo; refresh=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMwMDE2NjAsImlhdCI6MTcyMjIzOTI3NiwiZXhwIjoxNzIyMjQ2NDc2fQ.j6uY-3TVBG58ik-Wxbq5ANc2PBJU0q-w7gv57KqXRJU",
-        }).then((deleteResponse) => {
-          expect(deleteResponse.status).to.eq(200);
-        });
-      });
+      method: "DELETE",
+      url: `/api/account/box/${boxId}`,
+      Cookie: deleteBox.cookies,
+    }).then((deleteResponse) => {
+      expect(deleteResponse.status).to.eq(200);
     });
-  
-
+  });
+});

@@ -1,4 +1,5 @@
 {
   "arrowRight": ".btn-arrow-right",
-  "submitButton": ".btn-main"
+  "submitButton": ".btn-main",
+  "hederBox":"div.header-item__text > span"
 }

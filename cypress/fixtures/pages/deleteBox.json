@@ -2,5 +2,6 @@
   "headerBox": ".layout-1__header-wrapper-fixed > .layout-1__header > .header > .header__items > .layout-row-start > [href='/account/boxes'] > .header-item > .header-item__text > .txt--med", 
   "boxSettingsButton": ".layout-1__header-wrapper-fixed > .layout-1__header-secondary > .header-secondary > .header-secondary__right-item > .toggle-menu-wrapper > .toggle-menu-button > .toggle-menu-button--inner",
   "deleteBoxField": ":nth-child(2) > .form-page-group__main > .frm-wrapper > .frm",
-  "deleteBoxSelector":".btn-service"
+  "deleteBoxSelector":".btn-service",
+  "cookies": "jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMwMDE2NjAsImlhdCI6MTcyMjIzOTI3NiwiZXhwIjoxNzIyMjQyODc2fQ.cyu-e5sE7ViYjU1WyF45ec9QzD8UNz2RdCx-nFMrfEo; refresh=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMwMDE2NjAsImlhdCI6MTcyMjIzOTI3NiwiZXhwIjoxNzIyMjQ2NDc2fQ.j6uY-3TVBG58ik-Wxbq5ANc2PBJU0q-w7gv57KqXRJU"
 }

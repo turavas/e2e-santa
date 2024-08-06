@@ -1,5 +1,5 @@
 {
-  "drawStartLink": "a > span.txt-secondary--med",
+  "drawStartLink": "span.txt-secondary--med",
   "drawStartButton": "div.heading > .heading__right > .btn-main",
   "drawConfirmButton": "div.santa-modal_content_buttons > .btn-main",
   "drawResultText": ".picture-notice__title",

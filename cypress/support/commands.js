@@ -26,11 +26,14 @@
 
 const loginPage = require("../fixtures/pages/loginPage.json");
 const generalElements = require("../fixtures/pages/general.json");
+const users = require("../fixtures/users.json");
+const inviteeBoxPage = require("../fixtures/pages/inviteeBoxPage.json");
+const inviteeDashboardPage = require("../fixtures/pages/inviteeDashboardPage.json");
 
 Cypress.Commands.add("login", (userName, password) => {
   cy.get(loginPage.loginField).type(userName);
   cy.get(loginPage.passwordField).type(password);
-  cy.get(generalElements.submitButton).click({ force: true });
+  cy.get(generalElements.submitButton).click();
 });
 
 Cypress.Commands.add("addUsersToTheList", (userNameSelector, emailSelector, userName, email) => {
@@ -38,3 +41,13 @@ Cypress.Commands.add("addUsersToTheList", (userNameSelector, emailSelector, user
     cy.get(emailSelector).type(email);
   });
 
+Cypress.Commands.add("approveParticipation", (boxId, wishes) => {
+    cy.get (generalElements.hederBox);
+    cy.visit(`/box/${boxId}/card`);
+    cy.get(generalElements.submitButton).click({force: true});
+    cy.get(generalElements.arrowRight).click({force: true});
+    cy.get(inviteeDashboardPage.seventhIcon).click();
+    cy.get(generalElements.arrowRight).click({force: true});
+    cy.get(inviteeBoxPage.wishesInput).type(wishes);
+    cy.get(generalElements.arrowRight).click({force: true});
+  });
